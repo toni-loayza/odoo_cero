@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_delivery_sale_product_tree" model="ir.ui.view">
+        <field name="name">delivery.sale.product.tree</field>
+        <field name="model">delivery.sale.product</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de productos">
+                <field name="name"/>
+                <field name="stock"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_delivery_sale_product_form" model="ir.ui.view">
+        <field name="name">delivery.sale.product.form</field>
+        <field name="model">delivery.sale.product</field>
+        <field name="arch" type="xml">
+            <form string="Lista de productos">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="stock"/>
+                        </group>
+                        <group>
+                            <field name="price"/>
+                            <field name="discount"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_delivery_sale_product" model="ir.actions.act_window">
+        <field name="name">Lista de productos</field>
+        <field name="res_model">delivery.sale.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear una producto
+            </p>
+            <p>
+                Gestionador el producto
+            </p>
+        </field>
+    </record>
+<!--    <record id="view_partner_form_inherit" model="ir.ui.view">-->
+<!--        <field name="name">res.partner.form</field>-->
+<!--        <field name="model">res.partner</field>-->
+<!--        <field name="inherit_id" ref="base.view_partner_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//notebook" position="inside">-->
+<!--                <page string="Demo">-->
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="whatapp"/>-->
+<!--                        </group>-->
+<!--                        <group></group>-->
+<!--                    </group>-->
+<!--                </page>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

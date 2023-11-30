@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem id="menu_delivery_sale" name="Delivery" sequence="2">
+        <menuitem id="menu_delivery_sale_order" name="Pedido" sequence="1" groups="base.group_erp_manager,group_call_center_delivery">
+            <menuitem id="menu_delivery_sale_order_registered" name="Registrados" sequence="1" action="action_delivery_sale_order_registered"/>
+            <menuitem id="menu_delivery_sale_order_preparation" name="En preparación" sequence="2" action="action_delivery_sale_order_preparation"/>
+            <menuitem id="menu_delivery_sale_order_finalized" name="Finalizados" sequence="3" action="action_delivery_sale_order_finalized"/>
+        </menuitem>
+        <menuitem id="menu_delivery_sale_store" name="Almacen" sequence="2" groups="base.group_erp_manager,group_store_delivery">
+            <menuitem id="menu_delivery_sale_store_preparation" name="En preparación" sequence="1" action="action_delivery_sale_order_store_preparation"/>
+            <menuitem id="menu_delivery_sale_store_finalized" name="Finalizados" sequence="2" action="action_delivery_sale_order_store_finalized"/>
+        </menuitem>
+        <menuitem id="menu_delivery_sale_customers" name="Cliente" sequence="3" action="action_delivery_sale_customers" groups="base.group_erp_manager,group_call_center_delivery"/>
+        <menuitem id="menu_delivery_sale_product" name="Producto" sequence="4" action="action_delivery_sale_product" groups="base.group_erp_manager"/>
+    </menuitem>
+</odoo>

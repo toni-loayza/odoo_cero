@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="res.groups" id="group_store_delivery">
+            <field name="name">Rol de almacen</field>
+        </record>
+        <record model="res.groups" id="group_call_center_delivery">
+            <field name="name">Rol de call center</field>
+        </record>
+
+        <record model="ir.rule" id="rule_edit_call_center">
+            <field name="name">Pedido de usuario de call center</field>
+            <field name="model_id" ref="model_delivery_sale_order"/>
+            <field name="groups" eval="[(4, ref('group_call_center_delivery'))]"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record model="ir.rule" id="rule_other_call_center">
+            <field name="name">Pedido de otros usuarios</field>
+            <field name="model_id" ref="model_delivery_sale_order"/>
+            <field name="groups" eval="[(4, ref('group_call_center_delivery'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+    </data>
+</odoo>

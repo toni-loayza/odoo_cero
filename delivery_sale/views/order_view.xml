@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_delivery_sale_order_tree" model="ir.ui.view">
+        <field name="name">delivery.sale.order.tree</field>
+        <field name="model">delivery.sale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de pedidos">
+                <field name="date"/>
+                <field name="customers_id"/>
+                <field name="address_id"/>
+                <field name="create_uid" string="Creado por"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_delivery_sale_order_form" model="ir.ui.view">
+        <field name="name">delivery.sale.order.form</field>
+        <field name="model">delivery.sale.order</field>
+        <field name="arch" type="xml">
+            <form string="Pedido">
+                <header>
+                    <button name="action_setup" string="Preparar" type="object" states="registro"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="customers_id"/>
+                        </group>
+                        <group>
+                            <field name="address_id" domain="[('customers_id', '=', customers_id)]"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Detalle de pedido" id="line_oder">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="discount"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_delivery_sale_order_reading_tree" model="ir.ui.view">
+        <field name="name">delivery.sale.order.reading.tree</field>
+        <field name="model">delivery.sale.order</field>
+        <field name="inherit_id" ref="view_delivery_sale_order_tree"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_delivery_sale_order_reading_form" model="ir.ui.view">
+        <field name="name">delivery.sale.order.reading.form</field>
+        <field name="model">delivery.sale.order</field>
+        <field name="inherit_id" ref="view_delivery_sale_order_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">0</attribute>
+                <attribute name="edit">0</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_delivery_sale_order_registered" model="ir.actions.act_window">
+        <field name="name">Registrados</field>
+        <field name="res_model">delivery.sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'registro')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_delivery_sale_order_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_delivery_sale_order_form')})]"/>
+    </record>
+    <record id="action_delivery_sale_order_preparation" model="ir.actions.act_window">
+        <field name="name">En preparación</field>
+        <field name="res_model">delivery.sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'preparando')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_delivery_sale_order_reading_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_delivery_sale_order_reading_form')})]"/>
+    </record>
+    <record id="action_delivery_sale_order_finalized" model="ir.actions.act_window">
+        <field name="name">Finalizados</field>
+        <field name="res_model">delivery.sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'finalizado')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_delivery_sale_order_reading_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_delivery_sale_order_reading_form')})]"/>
+    </record>
+
+    <!--    vista para almacen-->
+    <record id="view_delivery_sale_order_store_tree" model="ir.ui.view">
+        <field name="name">delivery.sale.order.store.tree</field>
+        <field name="model">delivery.sale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de pedidos" create="0">
+                <field name="date"/>
+                <field name="write_date" string="Fecha de la ultima modificación"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_delivery_sale_order_store_form" model="ir.ui.view">
+        <field name="name">delivery.sale.order.store.form</field>
+        <field name="model">delivery.sale.order</field>
+        <field name="arch" type="xml">
+            <form string="Pedido" edit="0" create="0">
+                <header>
+                    <button name="action_finalize" string="Finalizar" type="object" states="preparando"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Detalle de pedido" id="line_oder">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="discount"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_delivery_sale_order_store_preparation" model="ir.actions.act_window">
+        <field name="name">En preparación</field>
+        <field name="res_model">delivery.sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'preparando')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_delivery_sale_order_store_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_delivery_sale_order_store_form')})]"/>
+    </record>
+    <record id="action_delivery_sale_order_store_finalized" model="ir.actions.act_window">
+        <field name="name">Finalizados</field>
+        <field name="res_model">delivery.sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'finalizado')]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_delivery_sale_order_store_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_delivery_sale_order_store_form')})]"/>
+    </record>
+</odoo>
