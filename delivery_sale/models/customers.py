@@ -4,7 +4,7 @@ from odoo import models, fields
 class DeliverySaleCustomers(models.Model):
     _name = "delivery.sale.customers"
     _inherit = "mail.thread"
-    _description = "Cliente"
+    _description = "Envio a Clientes"
 
     document = fields.Char("Documento de identidad", required=True, size=8, tracking=True)
     name = fields.Char("Apellidos y Nombres", required=True, size=100, tracking=True)
